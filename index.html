@@ -14,23 +14,24 @@
     .progress-fill { width: 0%; height: 100%; background: #2ec4b6; transition: width 1.2s ease-in-out; }
     .transit-text { font-size: 13px; color: #555; display: flex; align-items: center; margin-top: 8px; border-top: 1px dashed #e9ecef; padding-top: 8px; }
   </style>
-  <script type="text/javascript" src="https://gstatic.com"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
     
-    // ==========================================
-    //  ✈️ EDIT ONLY THIS SECTION TO UPDATE MAP ✈️
-    // ==========================================
+    // =========================================================
+    //  ✈️ EDIT ONLY THIS SECTION WITH 2-LETTER CODES TO UPDATE ✈️
+    // =========================================================
+    // Use official 2-letter codes (e.g., US, CA, GB, FR, DE, JP, SE)
     var countriesVisited = [
-      'United States', 'Canada', 'United Kingdom', 'France', 'Germany', 'Japan', 'Sweden'
+      'US', 'CA', 'GB', 'FR', 'DE', 'JP', 'SE'
     ];
     
     var countriesTransit = [
-      'Iceland', 'United Arab Emirates', 'Singapore'
+      'IS', 'AE', 'SG'
     ];
 
-    // ==========================================
-    //         DO NOT EDIT BELOW THIS LINE        
-    // ==========================================
+    // =========================================================
+    //                DO NOT EDIT BELOW THIS LINE        
+    // =========================================================
     var TOTAL_COUNTRIES = 195;
 
     google.charts.load('current', {'packages':['geochart']});
@@ -40,7 +41,7 @@
       var rawData = [['Country', 'Status', {role: 'tooltip'}]];
       countriesVisited.forEach(function(c) { rawData.push([c, 2, 'Visited']); });
       countriesTransit.forEach(function(c) { rawData.push([c, 1, 'Transit / Layover']); });
-      if (rawData.length === 1) { rawData.push(['Greenland', 0, 'No data']); }
+      if (rawData.length === 1) { rawData.push(['GL', 0, 'No data']); }
 
       var data = google.visualization.arrayToDataTable(rawData);
       var options = {
@@ -78,7 +79,7 @@
     </div>
     <div class="transit-text">
       <span class="dot" style="background: #ffb74d; flex-shrink:0;"></span>
-      <span><strong>Transit Stops:</strong> <span id="t_list">None</span></span>
+      <span><strong>Transit Stops (Codes):</strong> <span id="t_list">None</span></span>
     </div>
   </div>
 </body>
