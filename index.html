@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My Travel Map</title>
+  <style>
+    body { margin: 0; padding: 10px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fff; }
+    .container { max-width: 100%; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; background: #fff; box-sizing: border-box; }
+    #travel_map { width: 100%; height: 420px; background: #f8f9fa; margin-bottom: 20px; }
+    .bar-wrapper { margin-bottom: 12px; }
+    .bar-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #333; }
+    .dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; }
+    .progress-track { width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden; }
+    .progress-fill { width: 0%; height: 100%; background: #2ec4b6; transition: width 1.2s ease-in-out; }
+    .transit-text { font-size: 13px; color: #555; display: flex; align-items: center; margin-top: 8px; border-top: 1px dashed #e9ecef; padding-top: 8px; }
+  </style>
+  <script type="text/javascript" src="https://gstatic.com"></script>
+  <script type="text/javascript">
+    
+    // ==========================================
+    //  ✈️ EDIT ONLY THIS SECTION TO UPDATE MAP ✈️
+    // ==========================================
+    var countriesVisited = [
+      'United States', 'Canada', 'United Kingdom', 'France', 'Germany', 'Japan', 'Sweden'
+    ];
+    
+    var countriesTransit = [
+      'Iceland', 'United Arab Emirates', 'Singapore'
+    ];
+
+    // ==========================================
+    //         DO NOT EDIT BELOW THIS LINE        
+    // ==========================================
+    var TOTAL_COUNTRIES = 195;
+
+    google.charts.load('current', {'packages':['geochart']});
+    google.charts.setOnLoadCallback(initDashboard);
+
+    function initDashboard() {
+      var rawData = [['Country', 'Status', {role: 'tooltip'}]];
+      countriesVisited.forEach(function(c) { rawData.push([c, 2, 'Visited']); });
+      countriesTransit.forEach(function(c) { rawData.push([c, 1, 'Transit / Layover']); });
+      if (rawData.length === 1) { rawData.push(['Greenland', 0, 'No data']); }
+
+      var data = google.visualization.arrayToDataTable(rawData);
+      var options = {
+        colorAxis: { minValue: 1, maxValue: 2, colors: ['#ffb74d', '#2ec4b6'] },
+        backgroundColor: '#f8f9fa',
+        datalessRegionColor: '#e9ecef',
+        defaultColor: '#e9ecef',
+        legend: 'none'
+      };
+
+      var chart = new google.visualization.GeoChart(document.getElementById('travel_map'));
+      chart.draw(data, options);
+
+      var vCount = countriesVisited.length;
+      var vPct = ((vCount / TOTAL_COUNTRIES) * 100).toFixed(1);
+      document.getElementById('v_count').innerText = vCount + ' countries (' + vPct + '%)';
+      document.getElementById('v_bar').style.width = vPct + '%';
+      
+      var transitLabel = document.getElementById('t_list');
+      transitLabel.innerText = countriesTransit.length > 0 ? countriesTransit.join(', ') : 'None';
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div id="travel_map"></div>
+    <div class="bar-wrapper">
+      <div class="bar-header">
+        <span><span class="dot" style="background: #2ec4b6;"></span>Countries Visited</span>
+        <span id="v_count">0 countries (0%)</span>
+      </div>
+      <div class="progress-track">
+        <div id="v_bar" class="progress-fill"></div>
+      </div>
+    </div>
+    <div class="transit-text">
+      <span class="dot" style="background: #ffb74d; flex-shrink:0;"></span>
+      <span><strong>Transit Stops:</strong> <span id="t_list">None</span></span>
+    </div>
+  </div>
+</body>
+</html>
